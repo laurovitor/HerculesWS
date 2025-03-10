@@ -1,0 +1,32 @@
+function	script	F_HerbGrinder	{
+    if (getgroupid() < 0) {
+        mes "[Macerador de Ervas]";
+        mes "Você não tem permissão para usar este item!";
+        close;
+    }
+
+    mes "[Macerador de Ervas]";
+    mes "Você deseja macerar 10 Ervas Vermelhas e 1 Garrafa Vazia para criar uma Poção de Ervas Esmagadas?";
+    menu "Sim", L_Use, "Não", L_Cancel;
+
+    L_Use:
+        if (countitem(507) < 10) {
+            mes "Você não tem 10 Ervas Vermelhas!";
+            close;
+        }
+        if (countitem(713) < 1) {
+            mes "Você não tem uma Garrafa Vazia!";
+            close;
+        }
+
+        delitem 507,10; // Remove 10 Ervas Vermelhas
+        delitem 713,1; // Remove 1 Garrafa Vazia
+        getitem 500002,1; // Dá 1 Poção de Ervas Esmagadas
+
+        mes "Você criou uma Poção de Ervas Esmagadas!";
+        close;
+
+    L_Cancel:
+        mes "Talvez mais tarde!";
+        close;
+}

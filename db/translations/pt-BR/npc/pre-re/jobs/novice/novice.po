@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+
+msgctxt "Shion#nv1"
+msgid "Hello there~"
+msgstr "Olá~"
+
+msgctxt "Shion#nv1"
+msgid "Welcome to the"
+msgstr "Bem-vindo ao"
+
+msgctxt "Shion#nv1"
+msgid "Training Grounds!"
+msgstr "Campo de Treinamento!"
+
+msgctxt "Shion"
+msgid "The Training Grounds"
+msgstr "O Campo de treinamento"
+
+msgctxt "Shion"
+msgid "are located just past"
+msgstr ""
+
+msgctxt "Shion"
+msgid "the bridge located"
+msgstr ""
+
+msgctxt "Shion"
+msgid "to the right."
+msgstr ""
+
+msgctxt "Shion#nv1"
+msgid "Let's see."
+msgstr "Deixe-me ver."
+
+msgctxt "Shion#nv1"
+msgid "Your name is..."
+msgstr "Seu nome é..."
+
+msgctxt "Shion#nv1"
+msgid "My name is Shion."
+msgstr "Meu nome é Shion."
+
+msgctxt "Shion#nv1"
+msgid "Now that we've met, is there anything I can help you with?"
+msgstr "Agora que nos conhecemos, há algo em que posso te ajudar?"
+
+msgctxt "Shion#nv1"
+msgid "Where should I go?"
+msgstr "Para onde devo ir?"
+
+msgctxt "Shion#nv1"
+msgid "About Basic Interfaces."
+msgstr "Sobre as Interfaces Básicas."
+
+msgctxt "Shion#nv1"
+msgid "Who the crap are you?"
+msgstr "Quem diabos é você?"
+
+msgctxt "Guard#nv1"
+msgid "Welcome to the Training Grounds."
+msgstr "Bem-vindo ao Campo de Treinamento."
+
+msgctxt "Guard#nv1"
+msgid "You are now in the outer court yard."
+msgstr "Agora você está no pátio externo."
+
+msgctxt "Guard#nv1"
+msgid "Please go inside the castle to begin your training."
+msgstr "Por favor, entre no castelo para iniciar seu treinamento."
+
+msgctxt "Receptionist#nv1"
+msgid "Hello, you look to be new here."
+msgstr "Olá, você parece ser novo por aqui."
+
+msgctxt "Receptionist#nv1"
+msgid "What is your name?"
+msgstr "Qual é o seu nome?"
+
+msgctxt "Receptionist#nv1"
+msgid "Sorry, but I don't think I heard"
+msgstr "Desculpe, mas acho que não ouvi"
+
+msgctxt "Receptionist#nv1"
+msgid "you correctly"
+msgstr "você corretamente."
+
+msgctxt "Receptionist#nv1"
+msgid "Welcome!"
+msgstr "Bem-vindo!"
+
+msgctxt "Receptionist#nv1"
+msgid "You are at the entrance"
+msgstr "Você está na entrada"
+
+msgctxt "Receptionist#nv1"
+msgid "of the"
+msgstr "do"
+
+msgctxt "Receptionist#nv1"
+msgid "Training Grounds."
+msgstr "Campo de Treinamento."
+
+msgctxt "Receptionist#nv1"
+msgid "If you're new"
+msgstr "Se você é novo"
+
+msgctxt "Receptionist#nv1"
+msgid "to the Ragnarok world,"
+msgstr "no mundo de Ragnarok,"
+
+msgctxt "Receptionist#nv1"
+msgid "please choose the"
+msgstr "por favor, escolha a"
+
+msgctxt "Receptionist#nv1"
+msgid "Training Grounds Introduction"
+msgstr "Introdução ao Campo de Treinamento"
+
+msgctxt "Receptionist#nv1"
+msgid "menu for more information."
+msgstr "no menu para mais informações."
+
+msgctxt "Kafra Employee#nv1"
+msgid "Welcome to"
+msgstr "Bem-vindo à"
+
+msgctxt "Kafra Employee#nv1"
+msgid "Kafra Corporation."
+msgstr "Corporação Kafra."
+
+msgctxt "Kafra Employee#nv1"
+msgid "The Kafra services are"
+msgstr "Os serviços da Kafra estão"
+
+msgctxt "Kafra Employee#nv1"
+msgid "always on your side."
+msgstr "sempre ao seu lado."
+
+msgctxt "Kafra Employee#nv1"
+msgid "Please, take heed!"
+msgstr "Por favor, preste atenção!"
+
+msgctxt "Kafra Employee#nv1"
+msgid "If you move to a town"
+msgstr "Se você se mudar para uma cidade"
+
+msgctxt "Kafra Employee#nv1"
+msgid "you will be unable to return to the Training Grounds ever again."
+msgstr "você não poderá mais retornar ao Campo de Treinamento."
+
+msgctxt "Instructor#nv"
+msgid "Welcome to my class."
+msgstr "Bem-vindo à minha aula."
+
+msgctxt "Instructor#nv"
+msgid "Choose the subject you"
+msgstr "Escolha o assunto que você"
+
+msgctxt "Instructor#nv"
+msgid "wish to learn more about."
+msgstr "deseja aprender mais sobre."
+
+msgctxt "Instructor#nv"
+msgid "Basic Info Window"
+msgstr "Janela de Informações Básicas"
+
+msgctxt "Instructor#nv"
+msgid "Party Window"
+msgstr "Janela de Grupo"
+
+msgctxt "Instructor#nv"
+msgid "Item Window"
+msgstr "Janela de Itens"
+
+msgctxt "Instructor#nv"
+msgid "Option Window"
+msgstr "Janela de Opções"
+
+msgctxt "Instructor#nv"
+msgid "Equipment Window"
+msgstr "Janela de Equipamentos"
+
+msgctxt "Instructor#nv"
+msgid "Cancel"
+msgstr "Cancelar"

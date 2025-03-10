@@ -1,0 +1,118 @@
+//===== Hercules Script ======================================
+//= Healer
+//===== By: ==================================================
+//= Lauro Vitor
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Healer script.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//============================================================
+
+-	script	Healer	FAKE_NPC,{
+	.@price = 100;		// Zeny necessário para curar, grátis para VIPs
+	.@Delay = 30;		// Tempo de espera para jogadores normais (segundos)
+	.@VIPDelay = 5;		// Tempo de espera para VIPs (segundos)
+	.@isVIP = getgroupid() > 0;  // VIP se o Group ID for maior que 0 (Normal = 0, VIP = 1+, GM = 99)
+
+	.@resta = @HD - gettimetick(2);
+	if (@HD > gettimetick(2)) {
+		npctalk "Aguarde " + .@resta + " segundos para ser atendido novamente!";
+		end;
+	}
+
+	// Se o jogador for VIP, ele não paga
+	if (!.@isVIP && .@price) {
+		npctalk "[Enfermeira] O tratamento custa " + .@price + " Zeny.";
+		if (Zeny < .@price) {
+			npctalk "Você não tem Zeny suficiente!";
+			end;
+		}
+		Zeny -= .@price;
+	}
+
+	if (.@isVIP) {
+		// Mensagem especial para VIPs
+		setarray .@vipMsg$[
+			0], "Seu plano de saúde cobre esse tratamento, aproveite!",
+			"Atendimento VIP sempre garantido, senhor!",
+			"Ah, um cliente VIP! Pode sentar que eu cuido de tudo.",
+			"Nada melhor que tratamento premium, não é mesmo?",
+			"Só os melhores têm esse privilégio!";
+
+		npctalk .@vipMsg$[rand(5)];
+	} else {
+		// Lista de falas normais
+		setarray .@frases$[
+			0], "Isso pode arder um pouquinho...",
+			"Vou curar, mas toma banho de vez em quando, tá?",
+			"Cuidado para não se machucar de novo, bobão!",
+			"Pronto! Agora pode apanhar mais um pouco.",
+			"Vou cobrar da próxima vez, hein!";
+
+		// Escolhe uma frase aleatória e fala no NPC
+		npctalk .@frases$[rand(5)];
+	}
+
+	// Efeito visual de cura + cura total
+	specialeffect EF_HEAL2, AREA, playerattached();
+	percentheal 100,100;
+
+	if (.@isVIP) {
+		// Aplica buffs para jogadores VIPs
+		specialeffect(EF_INCAGILITY, AREA, playerattached());
+		sc_start SC_INC_AGI, 300000, 10;
+		specialeffect(EF_BLESSING, AREA, playerattached());
+		sc_start SC_BLESSING, 300000, 10;
+	}
+
+	// Define o tempo de espera antes do próximo uso, conforme o tipo de jogador
+	@HD = gettimetick(2) + (.@isVIP ? .@VIPDelay : .@Delay);
+
+	end;
+}
+
+
+// Duplicates
+//============================================================
+alberta,25,240,6	duplicate(Healer)	Enferemeira#alb	4_F_NURSE
+aldebaran,135,118,6	duplicate(Healer)	Enferemeira#alde	4_F_NURSE
+amatsu,200,79,4	duplicate(Healer)	Enferemeira#ama	4_F_NURSE
+ayothaya,207,169,6	duplicate(Healer)	Enferemeira#ayo	4_F_NURSE
+comodo,184,158,6	duplicate(Healer)	Enferemeira#com	4_F_NURSE
+einbech,57,36,6	duplicate(Healer)	Enferemeira#einbe	4_F_NURSE
+einbroch,57,202,6	duplicate(Healer)	Enferemeira#einbr	4_F_NURSE
+geffen,115,72,6	duplicate(Healer)	Enferemeira#gef	4_F_NURSE
+gonryun,156,122,6	duplicate(Healer)	Enferemeira#gon	4_F_NURSE
+hugel,89,150,6	duplicate(Healer)	Enferemeira#hug	4_F_NURSE
+izlude,125,118,5	duplicate(Healer)	Enferemeira#izl	4_F_NURSE
+jawaii,250,139,4	duplicate(Healer)	Enferemeira#jaw	4_F_NURSE
+lighthalzen,152,100,6	duplicate(Healer)	Enferemeira#lhz	4_F_NURSE
+louyang,226,103,4	duplicate(Healer)	Enferemeira#lou	4_F_NURSE
+manuk,272,144,6	duplicate(Healer)	Enferemeira#man	4_F_NURSE
+mid_camp,203,289,6	duplicate(Healer)	Enferemeira#mid	4_F_NURSE
+moc_ruins,72,164,4	duplicate(Healer)	Enferemeira#moc	4_F_NURSE
+morocc,153,97,6	duplicate(Healer)	Enferemeira#mor	4_F_NURSE
+moscovia,220,191,4	duplicate(Healer)	Enferemeira#mos	4_F_NURSE
+niflheim,212,182,5	duplicate(Healer)	Enferemeira#nif	4_F_NURSE
+payon,179,106,4	duplicate(Healer)	Enferemeira#pay	4_F_NURSE
+prontera,162,193,4	duplicate(Healer)	Enferemeira#prt	4_F_NURSE
+rachel,125,116,6	duplicate(Healer)	Enferemeira#rac	4_F_NURSE
+splendide,201,153,4	duplicate(Healer)	Enferemeira#spl	4_F_NURSE
+thor_camp,249,74,4	duplicate(Healer)	Enferemeira#thor	4_F_NURSE
+umbala,105,148,3	duplicate(Healer)	Enferemeira#umb	4_F_NURSE
+veins,217,121,4	duplicate(Healer)	Enferemeira#ve	4_F_NURSE
+xmas,143,136,4	duplicate(Healer)	Enferemeira#xmas	4_F_NURSE
+yuno,164,45,4	duplicate(Healer)	Enferemeira#yuno	4_F_NURSE
+paramk,106,88,4	duplicate(Healer)	Enferemeira#paramk	4_F_NURSE
+
+// Duplicates (Renewal)
+//============================================================
+//brasilis,194,221,6	duplicate(Healer)	Enferemeira#bra	4_F_NURSE
+//dewata,195,187,4	duplicate(Healer)	Enferemeira#dew	4_F_NURSE
+//dicastes01,201,194,4	duplicate(Healer)	Enferemeira#dic	4_F_NURSE
+//ecl_in01,45,60,4	duplicate(Healer)	Enferemeira#ecl	4_F_NURSE
+//malangdo,132,114,6	duplicate(Healer)	Enferemeira#mal	4_F_NURSE
+//malaya,205,205,6	duplicate(Healer)	Enferemeira#ma	4_F_NURSE
+//mora,55,152,4	duplicate(Healer)	Enferemeira#mora	4_F_NURSE

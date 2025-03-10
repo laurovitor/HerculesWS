@@ -1,0 +1,56 @@
+//===== Hercules Script ======================================
+//= Universal Rental NPC
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.2
+//===== Description: =========================================
+//= One-click automatic mount rentals.
+//= Replaced 'close' with 'end' [Streusel]
+//= Fixed 'close' issues. [Joseph]
+//============================================================
+
+prontera,144,200,4	script	Mestre de Aluguéis	4_F_JOB_BLACKSMITH,{
+	/* TODO: Isso pode ser otimizado usando apenas setmount(), pois ele pode
+	     detectar automaticamente a montaria apropriada para a classe/habilidades. */
+	if (hascashmount()) {
+		message strcharinfo(PC_NAME),"Você precisa primeiro remover sua montaria.";
+		end;
+	} else if ((eaclass()&EAJ_THIRDMASK) == EAJ_RANGER && !countitem(Wolfs_Flute)) {
+		if (!checkfalcon() && getskilllv(HT_FALCON) && !checkwug()) {
+			if (select("- Falcão", "- Worg") == 1)
+				setfalcon;
+			else
+				getitem Wolfs_Flute, 1;
+			specialeffect(EF_TEIHIT3, AREA, playerattached());
+			close;
+		} else {
+			getitem Wolfs_Flute,1;
+		}
+	} else if ((eaclass()&EAJ_THIRDMASK) == EAJ_MECHANIC && !checkcart() && getskilllv(MC_PUSHCART)) {
+		if (!checkmount() != MOUNT_MADO && getskilllv(NC_MADOLICENCE)) {
+			if (select("- Carrinho", "- Mado") == 1) {
+				setcart;
+			} else {
+				setmount(MOUNT_MADO);
+			}
+			specialeffect(EF_TEIHIT3, AREA, playerattached());
+			close;
+		} else {
+			setcart;
+		}
+	} else if (!checkcart() && getskilllv(MC_PUSHCART)) {
+		setcart;
+	} else if (!checkfalcon() && getskilllv(HT_FALCON) && !checkwug()) {
+		setfalcon;
+	} else if (checkmount() != MOUNT_PECO && getskilllv(KN_RIDING)) {
+		setmount; // Peco ou Dragão
+	} else if (checkmount() != MOUNT_MADO && getskilllv(NC_MADOLICENCE)) {
+		setmount(MOUNT_MADO);
+	} else {
+		message strcharinfo(PC_NAME),"Você não atende aos requisitos para alugar.";
+		end;
+	}
+	specialeffect(EF_TEIHIT3, AREA, playerattached());
+	end;
+}

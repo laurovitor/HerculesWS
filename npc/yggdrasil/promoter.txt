@@ -1,0 +1,23 @@
+-	script	Promoter	FAKE_NPC,{
+
+    OnInit:
+		initnpctimer;
+		end;
+
+	OnTimer15000:
+		setarray .promoterMsg$,
+			"Ei, você! Já conferiu as melhores lojas do mercado? Entre pelo portal!",
+			"Não perca tempo! Os preços estão imperdíveis dentro do mercado!",
+			"Aqui fora tá bom, mas lá dentro tem ofertas de cair o queixo!",
+			"Entre no portal e veja os melhores vendedores da cidade!",
+			"Vem, vem! O mercado está cheio de oportunidades pra você!",
+			"Se você quer os melhores itens, sabe onde ir... No mercado! Entre já!";
+
+		npctalk .promoterMsg$[rand(6)];
+
+		initnpctimer;
+		end;
+
+}
+
+prontera,164,165,4	duplicate(Promoter)	Guria#prt	4_F_ZONDAGIRL

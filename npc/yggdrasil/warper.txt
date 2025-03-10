@@ -1,0 +1,456 @@
+//===== Hercules Script ======================================
+//= Warper
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.4b
+//===== Description: =========================================
+//= A complete - but very condensed - warper script.
+//= Some coordinates written by Tekno-Kanix and ToastOfDoom.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.1 Added missing duplicates and fixed coordinates.
+//= 1.2 Added new episodes and simplified functions.
+//= 1.3 Added Renewal checks and Instances menu.
+//=     Aligned coordinates with @go.
+//= 1.4 Added new Guild Dungeons.
+//= 1.4a Slight edits.
+//= 1.4b Added Wolfchev's Laboratory warp.
+//============================================================
+
+-	script	Warper	FAKE_NPC,{
+function Go; function Disp; function Pick; function Restrict;
+
+// --------------------------------------------------
+//	Main Menu:
+// --------------------------------------------------
+
+menu	"Último teleporte ^777777["+lastwarp$+"]^000000",-,
+		"- Cidades",Towns,
+		"- Campos",Fields,
+		"- Dungeons",Dungeons,
+		"- Castelos",Castles,
+		// " ~ Guild Dungeons",Guild_Dungeons,
+		// " ~ Instances",Instances,
+		"- Áreas Especiais (VIP)",Special,
+		"- Áreas de Treino",Training;
+
+	if (lastwarp$ == "")
+	{
+		message strcharinfo(PC_NAME),"Sem registro.";
+		close;
+	}
+	else
+		warp lastwarp$,lastwarpx,lastwarpy;
+	end;
+
+// ------------------- Functions -------------------
+// * Go("<map>",<x>,<y>);
+//	~ Warps directly to a map.
+//
+// * Disp("<Menu Option>",<first option>,<last option>);
+// * Pick("<map_prefix>"{,<index offset>});
+//	~ Dynamic menu and map selection (auto-numbered).
+//
+// * Disp("<Option 1>:<Option 2>:<etc.>");
+// * Pick("","<map1>","<map2>","<etc.>");
+//	~ Manual menu and map selection (listed).
+//
+// * Restrict("<RE | Pre-RE>"{,<menu option numbers>});
+//	~ Only allows map for Renewal or Pre-Renewal modes.
+//     If menu option numbers are given, only those maps
+//     will be restricted (i.e. not for "Go").
+//
+// Other notes:
+//   ~ Array @c[] holds all (x,y) coordinates.
+//   ~ Use @c[2] EXCEPT when maps begin dynamically
+//	  at 0: use @c[0] and Pick() offset 1.
+// --------------------------------------------------
+
+function Go {
+	lastwarp$ = getarg(0);
+	lastwarpx = getarg(1,0);
+	lastwarpy = getarg(2,0);
+	warp getarg(0),getarg(1,0),getarg(2,0);
+	end;
+}
+function Disp {
+	if (getargcount() < 3)
+		@menu$ = getarg(0);
+	else {
+		@menu$ = "";
+		for (.@i = getarg(1); .@i <= getarg(2); .@i++)
+			@menu$ = @menu$+getarg(0)+" "+.@i+":";
+	}
+	return;
+}
+function Pick {
+	.@warp_block = @warp_block;
+	@warp_block = 0;
+	.@select = select(@menu$);
+	if (getarg(0) == "") {
+		.@i = .@select;
+		.@map$ = getarg(.@i);
+	} else {
+		.@i = .@select-getarg(1,0);
+		.@map$ = getarg(0)+((.@i<10)?"0":"")+.@i;
+	}
+	if (.@warp_block & (1<<.@select)) {
+		message strcharinfo(PC_NAME),"Este mapa não está ativado em "+(RENEWAL?"":"Pre-")+"Renewal.";
+		end;
+	}
+	.@x = @c[.@i*2];
+	.@y = @c[.@i*2+1];
+	deletearray @c[0],getarraysize(@c);
+	Go(.@map$,.@x,.@y);
+}
+function Restrict {
+	if ((getarg(0) == "RE" && !RENEWAL) || (getarg(0) == "Pre-RE" && RENEWAL)) {
+		if (getarg(1,0)) {
+			@warp_block = 0;
+			for (.@i = 1; .@i < getargcount(); .@i++)
+				@warp_block = @warp_block | (1<<getarg(.@i));
+		} else {
+			message strcharinfo(PC_NAME),"Este mapa não está ativado em "+(RENEWAL?"":"Pre-")+"Renewal.";
+			end;
+		}
+	}
+	return;
+}
+
+// --------------------------------------------------
+	Towns:
+// --------------------------------------------------
+menu	"Prontera",T1, "Alberta",T2, "Aldebaran",T3, "Amatsu",T4,
+		"Comodo",T7, "Geffen",T13, "Lutie",T20, "Midgarts Expedition Camp",T24,
+		"Morroc",T26, "Niflheim",T29, "Payon",T30, "Umbala",T34, "Yuno",T36;
+
+T1: Go("prontera",155,183);
+T2: Go("alberta",28,234);
+T3: Go("aldebaran",140,131);
+T4: Go("amatsu",198,84);
+T7: Go("comodo",209,143);
+T13: Go("geffen",119,59);
+T20: Go("xmas",147,134);
+T24: Go("mid_camp",210,288);
+T26: Go("morocc",156,93);
+T29: Go("niflheim",202,174);
+T30: Go("payon",179,100);
+T34: Go("umbala",97,153);
+T36: Go("yuno",157,51);
+
+// --------------------------------------------------
+	Fields:
+// --------------------------------------------------
+menu	"Amatsu Fields",F1, "Ayothaya Fields",F2,
+		"Comodo Fields",F5, "Einbroch Fields",F8, 
+		"Geffen Fields",F10, "Gonryun Fields",F11, "Hugel Fields",F12,
+		"Lighthalzen Fields",F13, "Louyang Field",F14, "Lutie Field",F15,
+		"Manuk Fields",F17, "Mjolnir Fields",F18,
+		"Moscovia Fields",F19, "Niflheim Fields",F20, "Payon Forests",F21,
+		"Prontera Fields",F22, "Rachel Fields",F23, "Sograt Deserts",F24,
+		"Splendide Fields",F25, "Umbala Fields",F26, "Veins Fields",F27,
+		"Yuno Fields",F28;
+
+F1: setarray @c[2],190,197;
+	Disp("Amatsu Field",1,1); Pick("ama_fild");
+F2: setarray @c[2],173,134;
+	Disp("Ayothaya Field",1,1); Pick("ayo_fild");
+F5: Restrict("Pre-RE",5);
+	setarray @c[2],180,178;
+	Disp("Comodo Field",1); Pick("cmd_fild");
+F8: Restrict("Pre-RE",2,10);
+	setarray @c[2],142,225;
+	Disp("Einbroch Field",1,1); Pick("ein_fild");
+F10: Restrict("Pre-RE",13,15);
+	 setarray @c[0],213,204;
+	 Disp("Geffen Field",1,1); Pick("gef_fild",1);
+F11: setarray @c[2],220,227;
+	 Disp("Gonryun Field",1,1); Pick("gon_fild");
+F12: Restrict("Pre-RE",3,7);
+	 setarray @c[2],268,101;
+	 Disp("Hugel Field",1,1); Pick("hu_fild");
+F13: setarray @c[2],240,179;
+	 Disp("Lighthalzen Field",1,1); Pick("lhz_fild");
+F14: setarray @c[2],229,187;
+	 Disp("Louyang Field",1,1); Pick("lou_fild");
+F15: setarray @c[2],115,145;
+	 Disp("Lutie Field",1,1); Pick("xmas_fild");
+F17: setarray @c[2],35,236;
+	 Disp("Manuk Field",1,1); Pick("man_fild");
+F18: setarray @c[2],204,120;
+	 Disp("Mjolnir Field",1,1); Pick("mjolnir_");
+F19: setarray @c[2],82,104;
+	 Disp("Moscovia Field",1,1); Pick("mosk_fild");
+F20: setarray @c[2],215,229;
+	 Disp("Niflheim Field",1,1); Pick("nif_fild");
+F21: Restrict("Pre-RE",5,11);
+	 setarray @c[2],158,206;
+	 Disp("Payon Forest",1,1); Pick("pay_fild");
+F22: setarray @c[0],208,227;
+	 Disp("Prontera Field",0,0); Pick("prt_fild",1);
+F23: setarray @c[2],235,166;
+	 Disp("Rachel Field",1,1); Pick("ra_fild");
+F24: setarray @c[2],219,205;
+	 Disp("Sograt Desert 1");
+	 Pick("moc_fild01");
+F25: setarray @c[2],175,186;
+	 Disp("Splendide Field",1,1); Pick("spl_fild");
+F26: setarray @c[2],217,206;
+	 Disp("Umbala Field",1,1); Pick("um_fild");
+F27: Restrict("Pre-RE",5);
+	 setarray @c[2],186,175;
+	 Disp("Veins Field",1,1); Pick("ve_fild");
+F28: Restrict("Pre-RE",5,10);
+	 setarray @c[2],189,224;
+	 Disp("Yuno Field",1,1); Pick("yuno_fild");
+
+// --------------------------------------------------
+	Dungeons:
+// --------------------------------------------------
+menu	"Abyss Lakes",D1, "Amatsu Dungeon",D2, "Anthell",D3,
+		"Ayothaya Dungeon",D4, "Beach Dungeon",D5, "Bifrost Tower",D41,
+		"Bio Labs",D6, "Brasilis Dungeon",D7, "Byalan Dungeon",D8, "Clock Tower",D9,
+		"Coal Mines",D10, "Culvert",D11, "Cursed Abbey",D12, "Dewata Dungeon",D13,
+		"Einbroch Dungeon",D14, "Gefenia",D15, "Geffen Dungeon",D16,
+		"Glast Heim",D17, "Gonryun Dungeon",D18, "Hidden Dungeon",D19,
+		"Ice Dungeon",D20, "Juperos",D21, "Kiel Dungeon",D22, "Louyang Dungeon",D23,
+		"Magma Dungeon",D24, "Moscovia Dungeon",D26,
+		"Nidhogg's Dungeon",D27, "Odin Temple",D28, "Orc Dungeon",D29,
+		"Payon Dungeon",D30, "Pyramids",D31, "Rachel Sanctuary",D32,
+		"Sphinx",D34, "Sunken Ship",D35, "Thanatos Tower",D36,
+		"Thor Volcano",D37, "Toy Factory",D38, "Turtle Dungeon",D39;
+
+D1: setarray @c[2],261,272;
+	Disp("Abyss Lakes",1,1); Pick("abyss_");
+D2: setarray @c[2],228,11;
+	Disp("Amatsu Dungeon",1,1); Pick("ama_dun");
+D3: setarray @c[2],35,262;
+	Disp("Anthell",1,1); Pick("anthell");
+D4: setarray @c[2],275,19;
+	Disp("Ancient Shrine Maze:Inside Ancient Shrine"); Pick("ayo_dun");
+D5: setarray @c[2],266,67,255,244,23,260;
+	Disp("Beach Dungeon",1,3); Pick("","beach_dun","beach_dun2","beach_dun3");
+D6: setarray @c[2],150,288;
+	Disp("Bio Lab",1,1); Pick("lhz_dun");
+D7: setarray @c[2],87,47;
+	Disp("Brasilis Dungeon",1,1); Pick("bra_dun");
+D8: setarray @c[0],168,168;
+	Disp("Byalan Dungeon",1,1); Pick("iz_dun",1);
+D9: setarray @c[2],199,159;
+	Disp("Clock Tower 1");
+	Pick("","c_tower1");
+D10: setarray @c[2],52;
+	 Disp("Coal Mines",1,1); Pick("mjo_dun");
+D11: setarray @c[2],131,247;
+	 Disp("Culvert",1,1); Pick("","prt_sewb1");
+D12: setarray @c[2],51,14;
+	 Disp("Cursed Abbey",1,1); Pick("abbey");
+D13: Restrict("RE");
+	 setarray @c[2],285,160;
+	 Disp("Dewata Dungeon",1,1); Pick("dew_dun");
+D14: setarray @c[2],22,14;
+	 Disp("Einbroch Dungeon",1,1); Pick("ein_dun");
+D15: setarray @c[2],40,103;
+	 Disp("Gefenia",1,1); Pick("gefenia",0);
+D16: setarray @c[0],104,99;
+	 Disp("Geffen Dungeon",1,1); Pick("gef_dun",1);
+D17: setarray @c[2],370,304;
+	 Disp("Entrance:Castle 1");
+	 Pick("glast_01");
+D18: setarray @c[2],153,53;
+	 Disp("Gonryun Dungeon",1,1); Pick("gon_dun");
+D19: setarray @c[2],176,7;
+	 Disp("Hidden Dungeon",1,1); Pick("prt_maze");
+D20: setarray @c[2],157;
+	 Disp("Ice Dungeon",1,1); Pick("ice_dun");
+D21: setarray @c[2],140,51;
+	 Disp("Entrance:Juperos 1");
+	 Pick("","jupe_cave");
+D22: setarray @c[2],28,226;
+	 Disp("Kiel Dungeon",1,1); Pick("kh_dun");
+D23: setarray @c[2],218,196;
+	 Disp("The Royal Tomb:Inside the Royal Tomb:Suei Long Gon"); Pick("lou_dun");
+D24: setarray @c[2],126,68;
+	 Disp("Magma Dungeon",1,1); Pick("mag_dun");
+D26: setarray @c[2],189,48;
+	 Disp("Moscovia Dungeon",1,1); Pick("mosk_dun");
+D27: setarray @c[2],61,239;
+	 Disp("Nidhogg's Dungeon",1,1); Pick("nyd_dun");
+D28: setarray @c[2],298,167;
+	 Disp("Odin Temple",1,1); Pick("odin_tem");
+D29: setarray @c[2],32,170;
+	 Disp("Orc Dungeon",1,1); Pick("orcsdun");
+D30: setarray @c[0],21,183;
+	 Disp("Payon Dungeon",1,1); Pick("pay_dun",1);
+D31: setarray @c[2],192,9;
+	 Disp("Pyramids 1"); Pick("moc_pryd01");
+D32: setarray @c[2],140;
+	 Disp("Rachel Sanctuary",1,1); Pick("ra_san");
+D34: setarray @c[2],288,9;
+	 Disp("Sphinx",1,1); Pick("","in_sphinx1");
+D35: setarray @c[2],69,24;
+	 Disp("Sunken Ship",1,1); Pick("treasure");
+D36: setarray @c[2],150,39;
+	 Disp("Thanatos Tower",1,1); Pick("tha_t");
+D37: setarray @c[2],21,228;
+	 Disp("Thor Volcano",1,1); Pick("thor_v");
+D38: setarray @c[2],205,15;
+	 Disp("Toy Factory",1,1); Pick("xmas_dun");
+D39: setarray @c[2],154,49;
+	 Disp("Entrance:Turtle Dungeon 1"); Pick("tur_dun");
+
+// --------------------------------------------------
+	Castles:
+// --------------------------------------------------
+menu	"Aldebaran Castles",C1, "Geffen Castles",C2, "Payon Castles",C3,
+		"Prontera Castles",C4, "Arunafeltz Castles",C5, "Schwaltzvalt Castles",C6;
+
+C1: setarray @c[2],48,83,95,249,142,85,239,242,264,90;
+	Disp("Neuschwanstein:Hohenschwangau:Nuenberg:Wuerzburg:Rothenburg");
+	Pick("","alde_gld","alde_gld","alde_gld","alde_gld","alde_gld");
+C2: setarray @c[2],214,75,308,240,143,240,193,278,305,87;
+	Disp("Repherion:Eeyolbriggar:Yesnelph:Bergel:Mersetzdeitz");
+	Pick("","gef_fild13","gef_fild13","gef_fild13","gef_fild13","gef_fild13");
+C3: setarray @c[2],121,233,295,116,317,293,140,160,204,266;
+	Disp("Bright Arbor:Scarlet Palace:Holy Shadow:Sacred Altar:Bamboo Grove Hill");
+	Pick("","pay_gld","pay_gld","pay_gld","pay_gld","pay_gld");
+C4: setarray @c[2],134,65,240,128,153,137,111,240,208,240;
+	Disp("Kriemhild:Swanhild:Fadhgridh:Skoegul:Gondul");
+	Pick("","prt_gld","prt_gld","prt_gld","prt_gld","prt_gld");
+C5: setarray @c[2],158,272,83,47,68,155,299,345,292,107;
+	Disp("Mardol:Cyr:Horn:Gefn:Banadis");
+	Pick("","aru_gld","aru_gld","aru_gld","aru_gld","aru_gld");
+C6: setarray @c[2],293,100,288,252,97,196,137,90,71,315;
+	Disp("Himinn:Andlangr:Viblainn:Hljod:Skidbladnir");
+	Pick("","sch_gld","sch_gld","sch_gld","sch_gld","sch_gld");
+
+// --------------------------------------------------
+	Guild_Dungeons:
+// --------------------------------------------------
+menu	"Baldur",G1, "Luina",G2, "Valkyrie",G3, "Britoniah",G4,
+		"Arunafeltz",G5, "Schwaltzvalt",G6;
+
+G1: Restrict("RE",2,3);
+	setarray @c[2],119,93,119,93,120,130;
+	Disp("Baldur F1:Baldur F2:Hall of Abyss");
+	Pick("","gld_dun01","gld_dun01_2","gld2_pay");
+G2: Restrict("RE",2,3);
+	setarray @c[2],39,161,39,161,147,155;
+	Disp("Luina F1:Luina F2:Hall of Abyss");
+	Pick("","gld_dun02","gld_dun02_2","gld2_ald");
+G3: Restrict("RE",2,3);
+	setarray @c[2],50,44,50,44,140,132;
+	Disp("Valkyrie F1:Valkyrie F2:Hall of Abyss");
+	Pick("","gld_dun03","gld_dun03_2","gld2_prt");
+G4: Restrict("RE",2,3);
+	setarray @c[2],116,45,116,45,152,118;
+	Disp("Britoniah F1:Britoniah F2:Hall of Abyss");
+	Pick("","gld_dun04","gld_dun04_2","gld2_gef");
+G5: Go("arug_dun01",199,195);
+G6: Go("schg_dun01",200,124);
+
+// --------------------------------------------------
+	Instances:
+// --------------------------------------------------
+menu	"Bakonawa Lake",I1, "Bangungot Hospital 2F",I2, "Buwaya Cave",I3,
+		"Endless Tower",I4, "Hazy Forest",I5, "Malangdo Culvert",I6, "Nidhoggur's Nest",I7,
+		"Octopus Cave",I8, "Old Glast Heim",I9, "Orc's Memory",I10, "Sealed Shrine",I11,
+		"Wolfchev's Laboratory",I12;
+
+I1: Restrict("RE");
+	Go("ma_scene01",172,175);
+I2: Restrict("RE");
+	Go("ma_dun01",151,8);
+I3: Restrict("RE");
+	Go("ma_fild02",316,317);
+I4: Go("e_tower",72,112);
+I5: Restrict("RE");
+	Go("bif_fild01",161,334);
+I6: Restrict("RE");
+	Go("mal_in01",164,21);
+I7: Go("nyd_dun02",95,193);
+I8: Restrict("RE");
+	Go("mal_dun01",152,230);
+I9: Restrict("RE");
+	Go("glast_01",204,268);
+I10: Go("gef_fild10",240,198);
+I11: Go("monk_test",306,143);
+I12: Restrict("RE");
+	Go("lhz_dun04",148,269);
+
+// --------------------------------------------------
+	Special:
+// --------------------------------------------------
+menu	"Auction Hall",S1, "Battlegrounds",S2, "Casino",S3, "Eden Group Headquarters",S4,
+		"Gonryun Arena",S5, "Izlude Arena",S6, "Monster Race Arena",S7, "Turbo Track",S8;
+
+S1: Go("auction_01",22,68);
+S2: Go("bat_room",154,150);
+S3: Go("cmd_in02",179,129);
+S4: Restrict("RE");
+	Go("moc_para01",31,14);
+S5: Go("gon_test",48,10);
+S6: Go("arena_room",100,88);
+S7: Go("p_track01",62,41);
+S8: Go("turbo_room",99,114);
+
+// --------------------------------------------------
+	Training:
+// --------------------------------------------------
+menu	"Auction Hall",N1;
+
+N1: Go("auction_01",22,68);
+}
+
+// --------------------------------------------------
+//	Duplicates:
+// --------------------------------------------------
+alb2trea,57,70,6	duplicate(Warper)	Teleporte#tre	4_F_VALKYRIE
+alberta,28,240,4	duplicate(Warper)	Teleporte#alb	4_F_VALKYRIE
+aldebaran,145,118,4	duplicate(Warper)	Teleporte#alde	4_F_VALKYRIE
+amatsu,203,87,4	duplicate(Warper)	Teleporte#ama	4_F_VALKYRIE
+ayothaya,209,169,6	duplicate(Warper)	Teleporte#ayo	4_F_VALKYRIE
+comodo,194,158,4	duplicate(Warper)	Teleporte#com	4_F_VALKYRIE
+einbech,59,38,6	duplicate(Warper)	Teleporte#einbe	4_F_VALKYRIE
+einbroch,69,202,4	duplicate(Warper)	Teleporte#einbr	4_F_VALKYRIE
+gef_fild10,71,339,4	duplicate(Warper)	Teleporte#orc	4_F_VALKYRIE
+geffen,124,72,4	duplicate(Warper)	Teleporte#gef	4_F_VALKYRIE
+glast_01,372,308,4	duplicate(Warper)	Teleporte#glh	4_F_VALKYRIE
+gonryun,162,122,4	duplicate(Warper)	Teleporte#gon	4_F_VALKYRIE
+hugel,101,151,4	duplicate(Warper)	Teleporte#hug	4_F_VALKYRIE
+izlu2dun,110,92,4	duplicate(Warper)	Teleporte#izd	4_F_VALKYRIE
+izlude,134,150,4	duplicate(Warper)	Teleporte#izl	4_F_VALKYRIE	//Pre-RE: (132,120)
+jawaii,253,138,4	duplicate(Warper)	Teleporte#jaw	4_F_VALKYRIE
+lighthalzen,162,102,4	duplicate(Warper)	Teleporte#lhz	4_F_VALKYRIE
+louyang,208,103,6	duplicate(Warper)	Teleporte#lou	4_F_VALKYRIE
+manuk,274,146,6	duplicate(Warper)	Teleporte#man	4_F_VALKYRIE
+mid_camp,216,288,4	duplicate(Warper)	Teleporte#mid	4_F_VALKYRIE
+mjolnir_02,85,364,4	duplicate(Warper)	Teleporte#mjo	4_F_VALKYRIE
+moc_ruins,64,164,4	duplicate(Warper)	Teleporte#moc	4_F_VALKYRIE
+morocc,159,97,4	duplicate(Warper)	Teleporte#mor	4_F_VALKYRIE
+moscovia,229,191,4	duplicate(Warper)	Teleporte#mos	4_F_VALKYRIE
+nameless_n,259,213,4	duplicate(Warper)	Teleporte#nam	4_F_VALKYRIE
+niflheim,205,179,4	duplicate(Warper)	Teleporte#nif	4_F_VALKYRIE
+pay_arche,42,134,4	duplicate(Warper)	Teleporte#arc	4_F_VALKYRIE
+payon,182,108,4	duplicate(Warper)	Teleporte#pay	4_F_VALKYRIE
+prontera,159,192,4	duplicate(Warper)	Teleporte#prt	4_F_VALKYRIE
+prt_fild05,279,223,6	duplicate(Warper)	Teleporte#cul	4_F_VALKYRIE
+rachel,135,116,4	duplicate(Warper)	Teleporte#rac	4_F_VALKYRIE
+splendide,205,153,4	duplicate(Warper)	Teleporte#spl	4_F_VALKYRIE
+thor_camp,249,76,4	duplicate(Warper)	Teleporte#thor	4_F_VALKYRIE
+umbala,106,150,3	duplicate(Warper)	Teleporte#umb	4_F_VALKYRIE
+veins,214,123,4	duplicate(Warper)	Teleporte#ve	4_F_VALKYRIE
+xmas,150,136,6	duplicate(Warper)	Teleporte#xmas	4_F_VALKYRIE
+yuno,162,47,4	duplicate(Warper)	Teleporte#yuno	4_F_VALKYRIE
+
+// --------------------------------------------------
+//	Duplicates (Renewal):
+// --------------------------------------------------
+//brasilis,201,222,4	duplicate(Warper)	Teleporte#bra	4_F_VALKYRIE
+//dewata,204,186,6	duplicate(Warper)	Teleporte#dew	4_F_VALKYRIE
+//dicastes01,194,194,6	duplicate(Warper)	Teleporte#dic	4_F_VALKYRIE
+//ecl_in01,51,60,4	duplicate(Warper)	Teleporte#ecl	4_F_VALKYRIE
+//malangdo,134,117,6	duplicate(Warper)	Teleporte#mal	4_F_VALKYRIE
+//malaya,231,204,4	duplicate(Warper)	Teleporte#ma	4_F_VALKYRIE
+//mora,57,152,4	duplicate(Warper)	Teleporte#mora	4_F_VALKYRIE

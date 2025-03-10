@@ -34,3 +34,30 @@
 
 //prontera	mapflag	novending
 //prt_in	mapflag	novending
+
+
+prontera	mapflag	novending
+izlude	mapflag	novending
+morocc	mapflag	novending
+geffen	mapflag	novending
+payon	mapflag	novending
+alberta	mapflag	novending
+aldebaran	mapflag	novending
+yuno	mapflag	novending
+einbroch	mapflag	novending
+lighthalzen	mapflag	novending
+comodo	mapflag	novending
+hugel	mapflag	novending
+rachel	mapflag	novending
+veins	mapflag	novending
+brasilis	mapflag	novending
+dewata	mapflag	novending
+malangdo	mapflag	novending
+amatsu	mapflag	novending
+gonryun	mapflag	novending
+louyang	mapflag	novending
+ayothaya	mapflag	novending
+xmas	mapflag	novending
+niflheim	mapflag	novending
+umbala	mapflag	novending
+malaya	mapflag	novending

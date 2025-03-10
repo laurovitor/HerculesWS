@@ -1,0 +1,36 @@
+// Map NPC's
+
+paramk,97,88,3	script	Kafra Employee::kaf_paramk	4_F_KAFRA6,{
+	cutin "kafra_06",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "Welcome to the";
+	mes "Kafra Corporation~";
+	mes "The Kafra Services are";
+	mes "always here to support";
+	mes "you. So how can I be";
+	mes "of service today?";
+	callfunc "F_Kafra",5,0,0,40,800;
+	savepoint "paramk",98,81;
+	callfunc "F_KafEnd",0,1,"in the city of Para Market";
+}
+
+// Map flags
+paramk	mapflag	pvp	off
+paramk	mapflag	nosave	SavePoint
+
+// Portal de Paradise Market
+prontera,165,168,0	warp	paramk_entrada	1,1,paramk,97,8
+paramk,97,5,0	warp	paramk_saida	1,1,prontera,162,168
+
+paramk,8,171,0	warp	paramk_grid_in_1	1,1,paramk,141,64
+paramk,145,64,0	warp	paramk_grid_out_1	1,1,paramk,11,171
+
+paramk,50,179,0	warp	paramk_grid_in_2	1,1,paramk,87,177
+paramk,84,177,0	warp	paramk_grid_out_2	1,1,paramk,47,179
+
+paramk,135,156,0	warp	paramk_grid_in_3	1,1,paramk,169,165
+paramk,166,165,0	warp	paramk_grid_out_3	1,1,paramk,132,156
+
+paramk,184,178,0	warp	paramk_grid_in_4	1,1,paramk,142,52
+paramk,145,52,0	warp	paramk_grid_out_4	1,1,paramk,184,175
